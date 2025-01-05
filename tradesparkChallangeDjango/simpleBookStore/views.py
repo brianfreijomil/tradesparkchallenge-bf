@@ -27,18 +27,19 @@ class BookViewSet(viewsets.ModelViewSet):
         if not title or not category_name:
             return Response({'error': 'Title and category are required'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Check Book
+        # Check exist Book
         try:
             book = Book.objects.get(title=title)
         except Book.DoesNotExist:
             return Response({'error': 'Book not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        # Check category
+        # Check exist category
         try:
             category = Category.objects.get(name=category_name)
         except Category.DoesNotExist:
             return Response({'error': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
 
+        #If the book has the category I remove it
         if category in book.categories.all():
             book.categories.remove(category)
             book_serialized = BookSerializer(book)
