@@ -1,0 +1,45 @@
+<div class="background-image">
+    <h1> Book Store </h1>
+    <div class="book-list">
+        <div>
+            <div class="book-container-search">
+                <label class="book-title-input-search">Search books.</label>
+                <input
+                    class="book-input-search"
+                    type="text"
+                    placeholder="Search by title, author, or category"
+                    [(ngModel)]="textSearch"
+                    (input)="filterBooks()"
+                />
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Book Title</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let book of booksFiltered">
+                        <td>{{ book["title"] }}</td>
+                        <td>{{ book["author"]["name"] }}</td>
+                        <td class="book-td-categories">
+                            <div class="book-item-category" *ngFor="let category of book['categories']">
+                                <p>{{ category["name"] }}</p>
+                                <button (click)="removeCategory(book,category)"> X </button>
+                            </div>
+                            <div *ngIf="book['categories'].length == 0">
+                                <p class="book-text-no-categories">No associated categories yet...</p>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="book-table-non-books" *ngIf="booksFiltered.length == 0">
+                <p>No books match your search.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
